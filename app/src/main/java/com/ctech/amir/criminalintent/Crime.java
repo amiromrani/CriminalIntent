@@ -27,16 +27,16 @@ public class Crime {
     public void setTitle(String title) {
         mTitle = title;
     }
-    public Date getmDate (){
+    public Date getDate (){
         return mDate;
     }
     public void setDate(Date date ){
         mDate = date;
     }
-    public boolean ismSolved(){
+    public boolean isSolved(){
         return mSolved;
     }
-    public void setmSolved(boolean solved) {
+    public void setSolved(boolean solved) {
         mSolved = solved;
 
     }
