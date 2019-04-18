@@ -12,18 +12,19 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main );
+        setContentView(R.layout.activity_main);
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment myFragment = fm.findFragmentById(R.id.fragment_container);
 
-        //first time through, the fragment will be null
+        // the first time through, the fragment will be null, so create it
         if (myFragment == null) {
             myFragment = createFragment();
             fm.beginTransaction()
-                    .add(R.id.fragment_container, myFragment )
+                    .add(R.id.fragment_container, myFragment)
                     .commit();
         }
     }
 
 }
+
