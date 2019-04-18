@@ -7,10 +7,10 @@ import android.support.v4.app.Fragment;
 import java.util.UUID;
 
 
-public class CrimeActivity extends SingleFragmentActivity2 {
+public class CrimeActivity extends SingleFragmentActivity {
 
-    //thi is just a constant we will use to get and set crimeId in our intent
-    private static final String EXTRA_CRIME_ID = "com.ctech.amir.criminalintent.crime_id";
+    // This is just a constant string we will use to set and get the crimeId in our Intent
+    private static final String EXTRA_CRIME_ID = "com.ctech.bartucz.criminalintent.crime_id";
 
     public static Intent newIntent(Context packageContext, UUID crimeId) {
         Intent myIntent = new Intent(packageContext, CrimeActivity.class);
@@ -18,10 +18,13 @@ public class CrimeActivity extends SingleFragmentActivity2 {
         return myIntent;
     }
 
-
-
-   @Override
+    @Override
     protected Fragment createFragment() {
-       return new CrimeFragment();
-   }
+
+        // Get the crimeId that was passed to us from the CrimeList via the Intent
+        UUID crimeId = (UUID) getIntent().getSerializableExtra(EXTRA_CRIME_ID);
+
+        // Call the "NewInstance" method which will create a new CrimeFragment and store the crimeId inside
+        return CrimeFragment.newInstance(crimeId);
+    }
 }
