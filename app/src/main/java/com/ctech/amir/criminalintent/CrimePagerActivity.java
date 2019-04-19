@@ -55,7 +55,7 @@ public class CrimePagerActivity extends AppCompatActivity {
 
             @Override
             public int getCount() {
-                return 0;
+                return mCrimes.size();
             }
         });
     }
