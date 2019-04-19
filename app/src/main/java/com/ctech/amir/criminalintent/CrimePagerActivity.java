@@ -50,7 +50,8 @@ public class CrimePagerActivity extends AppCompatActivity {
         mViewPager.setAdapter(new FragmentStatePagerAdapter(myFragmentManager) {
             @Override
             public Fragment getItem(int i) {
-                return null;
+                Crime myCrime = mCrimes.get(i);
+                return CrimeFragment.newInstance(myCrime.getId());
             }
 
             @Override
