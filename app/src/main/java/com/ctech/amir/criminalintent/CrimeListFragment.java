@@ -23,8 +23,15 @@ public class CrimeListFragment extends Fragment {
     private CrimeAdapter mAdapter;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstancesState) {
+        super.onCreate(savedInstancesState);
+        setHasOptionsMenu(true); // tell the fragment that it has an options menu
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
 
         View myView = inflater.inflate(R.layout.fragment_crime_list, container, false);
 
@@ -99,6 +106,7 @@ public class CrimeListFragment extends Fragment {
 
             mSolvedImageView.setVisibility(crime.isSolved() ? View.VISIBLE : View.GONE);
         }
+
 
 
     }
