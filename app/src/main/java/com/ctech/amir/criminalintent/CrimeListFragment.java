@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
@@ -24,6 +25,7 @@ public class CrimeListFragment extends Fragment {
 
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
+    private boolean mSubtitleVisible;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstancesState) {
@@ -56,6 +58,13 @@ public class CrimeListFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_crime_list, menu);
+
+        MenuItem subtitleItem = menu.findItem(R.id.show_subtitle);
+        if (mSubtitleVisible) {
+            subtitleItem.setTitle(R.string.hide_subtitle);
+        } else {
+            subtitleItem.setTitle(R.string.show_subtitle);
+        }
     }
     //this method gets called if user selects menu item
     //its job is to figure out what was selected and and deal appropriately
@@ -66,11 +75,28 @@ public class CrimeListFragment extends Fragment {
                 Crime newCrime = new Crime();
                 CrimeLab.get(getActivity()).addCrime(newCrime);
                 Intent myIntent = CrimePagerActivity.newIntent(getActivity(), newCrime.getId());
+                startActivity(myIntent);
+                return true;
+            case R.id.show_subtitle:
+                updateSubtitle();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    //create a subtitle that shows the number of crimes (if it fits)
+    private void updateSubtitle() {
+        CrimeLab crimeLab = CrimeLab.get(getActivity());
+        int crimeCount = crimeLab.getCrimes().size();
+        String subtitle = getString(R.string.subtitle_format, crimeCount);
+
+
+
+        AppCompatActivity thisActivity = (AppCompatActivity) getActivity();
+        thisActivity.getSupportActionBar().setSubtitle(subtitle);
+
     }
 
     private void updateUI() {
