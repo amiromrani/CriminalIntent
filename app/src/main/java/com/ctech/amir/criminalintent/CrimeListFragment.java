@@ -78,6 +78,15 @@ public class CrimeListFragment extends Fragment {
                 startActivity(myIntent);
                 return true;
             case R.id.show_subtitle:
+
+                // toggle the visibility of the subtitle
+                if (mSubtitleVisible) {
+                    mSubtitleVisible = false;
+                } else {
+                    mSubtitleVisible = true;
+                }
+                //invalidate the options menu so that it forcesa recreate
+                getActivity().invalidateOptionsMenu();
                 updateSubtitle();
                 return true;
             default:
@@ -91,7 +100,12 @@ public class CrimeListFragment extends Fragment {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         int crimeCount = crimeLab.getCrimes().size();
         String subtitle = getString(R.string.subtitle_format, crimeCount);
+        //pass in the crimeCount and format
 
+        // if it shouldn't be visible just set it to null
+        if (!mSubtitleVisible) {
+            subtitle = null;
+        }
 
 
         AppCompatActivity thisActivity = (AppCompatActivity) getActivity();
@@ -111,6 +125,7 @@ public class CrimeListFragment extends Fragment {
         } else {
             mAdapter.notifyDataSetChanged();
         }
+        updateSubtitle();
     }
 
 
