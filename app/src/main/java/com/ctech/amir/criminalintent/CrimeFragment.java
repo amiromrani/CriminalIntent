@@ -27,6 +27,9 @@ public class CrimeFragment extends Fragment {
     // this ta is used to manage the date picker popup dialog
     private static final  String DIALOG_DATE = "dialog_date";
 
+    //we'll use this number to associate the DatePicker with this as its target
+    private static final int REQUEST_DATE = 0;
+
     private Crime mCrime;
     private EditText mTitleField;
     private Button mDateButton;
@@ -87,6 +90,7 @@ public class CrimeFragment extends Fragment {
             public void onClick(View view) {
                 FragmentManager manager = getFragmentManager();
                 DatePickerFragment dialog = DatePickerFragment.newInstance(mCrime.getDate());
+                dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);
                 dialog.show(manager, DIALOG_DATE);
             }
         });
