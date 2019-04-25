@@ -1,7 +1,9 @@
 package com.ctech.amir.criminalintent;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,10 +15,11 @@ import android.widget.DatePicker;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class DatePickerFragment extends DialogFragment {
 
-    //this is the key into the intent where we store the dateto pass back to crimefragment
+    //this is the key into the intent where we store the dat eto pass back to crime fragment
     public static final String EXTRA_DATE = "com.ctech.amir.criminalintent.date";
 
     // this is the key into the bundle where we will store the date
@@ -41,16 +44,6 @@ public class DatePickerFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstancesState) {
 
-    private void sendResult(int resultCode, Date date) {
-        if (getTargetFragment() == null) {
-            return;
-        }
-
-        Intent myIntent = new Intent();
-        myIntent.putExtra(Intent.EXTRA_DATE, date);
-
-        }
-
         Date myDate = (Date) getArguments().getSerializable(ARG_DATE);
 
         // create a calender object so we can extract the year,month and day to initialize the datepicker
@@ -70,7 +63,26 @@ public class DatePickerFragment extends DialogFragment {
         return new AlertDialog.Builder(getActivity())
             .setView(v)
             .setTitle(R.string.date_picker_title)
-            .setPositiveButton(android.R.string.ok, null)
+            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    int year = mDatePicker.getYear();
+                    int month = mDatePicker.getMonth();
+                    int day = mDatePicker.getDayOfMonth();
+                    Date myDate = new GregorianCalendar(year, month, day).getTime();
+                    sendResoult(Activity.RESULT_OK, myDate);
+                }
+            })
             .create();
+    }
+    private void sendResoult(int resultcode, Date date) {
+        if (getTargetFragment() == null) {
+            return;
+        }
+
+        Intent myIntent = new Intent();
+        myIntent.putExtra(EXTRA_DATE, date);
+
+        getTargetFragment().onActivityResult(getTargetRequestCode(), resultcode, myIntent);
     }
 }
