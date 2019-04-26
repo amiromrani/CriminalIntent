@@ -119,6 +119,12 @@ public class CrimeFragment extends Fragment {
             mCrime.setDate(date);
             updateDate();
         }
+        // when the CrimeFragment is done, update the crime in the CrimeLab
+            @Override public void onPause() {
+            super.onPause();
+
+            CrimeLab.get(getActivity()).updateCrime(mCrime);
+            }
 
     }
 
