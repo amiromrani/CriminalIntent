@@ -40,7 +40,23 @@ public class CrimeLab {
     }
 
     public List<Crime> getCrimes() {
+
         List<Crime> crimes = new ArrayList<>();
+
+        // in this case we want all the crimes so we dont specify a where clause to search for
+        CrimeCursorWrapper crimeCursor = queruCrimes(null, null);
+
+        try {
+            crimeCursor.moveToFirst(); // make sure were at the first item of the list
+            while (crimeCursor.isAfterLast() != true) {
+                Crime thisCrime = crimeCursor.getCrime();   // use the wrapper to get a crime object
+                crimes.add(thisCrime);                      // add it to the list
+                crimeCursor.moveToNext();
+            }
+        }finally {
+            crimeCursor.close(); // we have to close our connection to the database every time
+        }
+
         return crimes;
     }
 
@@ -71,18 +87,41 @@ public class CrimeLab {
         mDatabase.update(CrimeDbSchema.CrimeTable.NAME, newValues, searchString, searchArgs);
     }
 
-    private Cursor queryCrimes(String whereClause, String[] whereArgs) {
+    private CrimeCursorWrapper queruCrimes(String whereClause, String[] whereArgs) {
 
         Cursor cursor= mDatabase.query(
                 CrimeDbSchema.CrimeTable.NAME,
-                            null,
+                            null, // select all the columns
                             whereClause,
                             whereArgs,
                              null,
                              null,
                             null);
 
-        return cursor;
+        return new CrimeCursorWrapper(cursor);
+    }
+
+    public Crime getCrime(UUID id) {
+
+        // create a string out of the UUID that we can search for
+        String[] searchArgs = new String[] {id.toString()};
+
+        // to find where the UUID = our search strinf
+        CrimeCursorWrapper crimeCursorWrapper = queruCrimes(
+                CrimeDbSchema.CrimeTable.Colums.UUID + " = ?", searchArgs);
+
+        try {
+            if (crimeCursorWrapper.getCount() == 0) {
+                return null; // no crimes in the database
+            } else {
+                // there should only ever be 1 result with that id so we can return the forst result
+                crimeCursorWrapper.moveToFirst();
+                return crimeCursorWrapper.getCrime();
+            }
+        } finally {
+            crimeCursorWrapper.close();
+        }
+
     }
 
     }

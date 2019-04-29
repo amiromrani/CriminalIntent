@@ -9,8 +9,12 @@ import java.util.Date;
 import java.util.UUID;
 
 public class CrimeCursorWrapper extends CursorWrapper {
-    public CursorWrapper(Cursor cursor) {
+    public CrimeCursorWrapper(Cursor cursor) {
         super(cursor);
+    }
+
+    public CrimeCursorWrapper(Cursor) {
+        super();
     }
 
     // get the Crime datails out of the database and store them in a Crime object
@@ -33,7 +37,6 @@ public class CrimeCursorWrapper extends CursorWrapper {
         mId = id;
         mDate = new Date(); // default the crime date to right now
     }
-
 
     // automatically create a guaranteed-unique ID if not provied
     public Crime() {
