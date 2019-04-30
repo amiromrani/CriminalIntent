@@ -68,10 +68,11 @@ public class CrimeLab {
     // convert a crime object into a content values object witch we can store in the database
     private static ContentValues getContentValues(Crime crime) {
         ContentValues myContentValues = new ContentValues();
-        myContentValues.put(CrimeDbSchema.CrimeTable.Colums.UUID, crime.getId().toString());
-        myContentValues.put(CrimeDbSchema.CrimeTable.Colums.TITTLE, crime.getTitle());
-        myContentValues.put(CrimeDbSchema.CrimeTable.Colums.DATE, crime.getDate().getTime());
-        myContentValues.put(CrimeDbSchema.CrimeTable.Colums.SOLVED, crime.isSolved() ? 1 : 0);
+        myContentValues.put(CrimeDbSchema.CrimeTable.Colums.UUID, crime.getId().toString()); // UUID to string
+        myContentValues.put(CrimeDbSchema.CrimeTable.Colums.TITTLE, crime.getTitle()); // already a string
+        myContentValues.put(CrimeDbSchema.CrimeTable.Colums.DATE, crime.getDate().getTime()); // store as an int
+        myContentValues.put(CrimeDbSchema.CrimeTable.Colums.SOLVED, crime.isSolved() ? 1 : 0); // boolean tp 0/1
+        myContentValues.put(CrimeDbSchema.CrimeTable.SUSPECT, crime.getSuspect());
 
         return myContentValues;
         }

@@ -23,19 +23,21 @@ public class CrimeCursorWrapper extends CursorWrapper {
         String title = getString(getColumnIndex(CrimeDbSchema.CrimeTable.Colums.TITTLE));
         long date = getLong(getColumnIndex(CrimeDbSchema.CrimeTable.Colums.DATE));
         int isSolved = getInt(getColumnIndex(CrimeDbSchema.CrimeTable.Colums.SOLVED));
+        String suspect = getString(getColumnIndex(CrimeDbSchema.CrimeTable.SUSPECT));
 
         Crime crime = new Crime(UUID.fromString(uuidString));
         crime.setTitle(title);
         crime.setDate(new Date(date));
         crime.setSolved(isSolved == 1);
+        crime.setSuspect(suspect);
 
         return crime;
     }
 
     //  the user can now specify their own UUID
-    public Crime(UUID id) {
-        mId = id;
-        mDate = new Date(); // default the crime date to right now
+    public CrimeCursorWrapper(UUID id) {
+        UUID mId = id;
+        Date mDate = new Date(); // default the crime date to right now
     }
 
     // automatically create a guaranteed-unique ID if not provied
