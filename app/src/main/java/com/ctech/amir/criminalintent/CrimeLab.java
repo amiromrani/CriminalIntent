@@ -16,6 +16,8 @@ public class CrimeLab {
 
     private static CrimeLab sCrimeLab;
 
+
+
     private Context mContext;
     private SQLiteDatabase mDatabase;
 
@@ -39,9 +41,12 @@ public class CrimeLab {
         mDatabase.insert(CrimeDbSchema.CrimeTable.NAME, null, newValues);
     }
 
+
     public List<Crime> getCrimes() {
 
         List<Crime> crimes = new ArrayList<>();
+        return crimes;
+
 
         // in this case we want all the crimes so we dont specify a where clause to search for
         CrimeCursorWrapper crimeCursor = queruCrimes(null, null);
